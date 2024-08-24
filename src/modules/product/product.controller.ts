@@ -22,7 +22,7 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 
-import { CreateProductDTO } from "./dto/product.dto";
+import { CreateProductDTO, ProductResponseDTO } from "./dto/product.dto";
 
 @Controller("product")
 export class ProductController implements OnModuleInit {
@@ -51,7 +51,7 @@ export class ProductController implements OnModuleInit {
   @Get("")
   @ApiParam({ name: "id", type: "string" })
   @ApiOperation({ summary: "Get Products" })
-  @ApiOkResponse({ description: "Get Products" })
+  @ApiOkResponse({ description: "Get Products", type: ProductResponseDTO })
   async getProducts(@Param("id") id: string) {
     return firstValueFrom(this.productService.getProduct({ uid: id }));
   }
