@@ -36,6 +36,14 @@ export class AwsService {
   private readonly client = new S3Client(this.clientConfig);
 
   /**
+   * AWS S3의 Public URL을 반환합니다.
+   * @returns AWS S3의 Public URL
+   */
+  getPublicUrl() {
+    return this.#S3PublicUrl;
+  }
+
+  /**
    * 이미지를 AWS S3에 업로드합니다.
    * @param base64Image 업로드할 이미지의 base64 문자열
    * @returns 업로드된 이미지의 PATH
