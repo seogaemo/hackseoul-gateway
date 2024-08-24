@@ -9,6 +9,7 @@ export class AwsService {
   constructor(
     private readonly configService: ConfigService<
       {
+        S3_ENDPOINT: string;
         S3_PUBLIC_URL: string;
         S3_BUCKET_NAME: string;
         S3_REGION: string;
@@ -19,6 +20,7 @@ export class AwsService {
     >,
   ) {}
 
+  #S3Endpoint = this.configService.get("S3_ENDPOINT", { infer: true });
   #S3PublicUrl = this.configService.get("S3_PUBLIC_URL", { infer: true });
   #bucketName = this.configService.get("S3_BUCKET_NAME", { infer: true });
   #S3Region = this.configService.get("S3_REGION", { infer: true });
@@ -26,6 +28,7 @@ export class AwsService {
   #S3SecretKey = this.configService.get("S3_SECRET_KEY", { infer: true });
 
   private readonly clientConfig: S3ClientConfig = {
+    endpoint: this.#S3Endpoint,
     region: this.#S3Region,
     credentials: {
       accessKeyId: this.#S3AccessKey,
