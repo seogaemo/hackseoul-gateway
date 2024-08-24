@@ -27,14 +27,14 @@ import { SignInUserDTO, SignInUserResponseDTO } from "./dto/signin-user.dto";
 export class AuthController implements OnModuleInit {
   constructor(
     @Inject(AUTH_PACKAGE_NAME)
-    private readonly zoneClient: ClientGrpc,
+    private readonly authClient: ClientGrpc,
   ) {}
 
   private authService!: AuthServiceClient;
 
   onModuleInit() {
     this.authService =
-      this.zoneClient.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+      this.authClient.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
   @Post("signin")
