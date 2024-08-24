@@ -38,21 +38,21 @@ export class AwsService {
   /**
    * 이미지를 AWS S3에 업로드합니다.
    * @param base64Image 업로드할 이미지의 base64 문자열
-   * @returns 업로드된 이미지의 URL
+   * @returns 업로드된 이미지의 PATH
    */
   async uploadImage(base64Image: string) {
     const buffer = Buffer.from(base64Image, "base64");
-    const key = `${crypto.randomBytes(20).toString("hex")}.png`;
+    const key = `image/${crypto.randomBytes(20).toString("hex")}.png`;
 
     const command = new PutObjectCommand({
       Bucket: this.#bucketName,
-      Key: `image/${key}`,
+      Key: key,
       Body: buffer,
       ContentType: "image/png",
     });
 
     await this.client.send(command);
 
-    return `${this.#S3PublicUrl}/image/${key}`;
+    return `/${key}`;
   }
 }
