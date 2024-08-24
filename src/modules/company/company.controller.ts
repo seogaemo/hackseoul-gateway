@@ -22,7 +22,7 @@ import {
   ApiParam,
 } from "@nestjs/swagger";
 
-import { CreateCompanyDTO } from "./dto/company.dto";
+import { CompanyResponseDTO, CreateCompanyDTO } from "./dto/company.dto";
 
 @Controller("company")
 export class CompanyController implements OnModuleInit {
@@ -51,7 +51,7 @@ export class CompanyController implements OnModuleInit {
   @Get("")
   @ApiParam({ name: "id", type: "string" })
   @ApiOperation({ summary: "Get Companys" })
-  @ApiOkResponse({ description: "Get Companys" })
+  @ApiOkResponse({ description: "Get Companys", type: CompanyResponseDTO })
   async getCompanys(@Param("id") id: string) {
     return firstValueFrom(this.companyService.getCompany({ uid: id }));
   }
