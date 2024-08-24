@@ -12,6 +12,11 @@ export class CreateProductDTO {
   @IsString()
   @IsNotEmpty()
   companyId!: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  base64Image!: string;
 }
 
 export class ProductResponseDTO {
@@ -23,4 +28,7 @@ export class ProductResponseDTO {
 
   @ApiProperty()
   companyId!: string;
+
+  @ApiProperty()
+  imageUrl!: string;
 }
