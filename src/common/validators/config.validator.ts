@@ -19,6 +19,7 @@ export const ConfigValidator = Joi.object({
   CACHE_TTL: Joi.number().default(60 * 1000),
   CACHE_MAX: Joi.number().default(100),
   // AWS S3
+  S3_ENDPOINT: Joi.string().required(),
   S3_PUBLIC_URL: Joi.string().required(),
   S3_BUCKET_NAME: Joi.string().required(),
   S3_REGION: Joi.string().required(),
