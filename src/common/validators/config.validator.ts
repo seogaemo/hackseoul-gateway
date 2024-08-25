@@ -5,4 +5,6 @@ export const ConfigValidator = Joi.object({
   NODE_ENV: Joi.string()
     .valid("development", "production", "test")
     .default("development"),
+
+  GATEWAY_URL: Joi.string().default("https://hackseoul.plebea.com"),
 });
