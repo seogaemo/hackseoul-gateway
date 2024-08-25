@@ -1,3 +1,8 @@
+import {
+  AUTH_PACKAGE_NAME,
+  AuthServiceClient,
+} from "@shared/generated/auth.proto";
+import { AUTH_SERVICE_NAME } from "@shared/generated/auth.proto";
 import { COMPANY_SERVICE_NAME } from "@shared/generated/company.proto";
 import {
   COMPANY_PACKAGE_NAME,
@@ -9,6 +14,7 @@ import {
   Body,
   Controller,
   Get,
+  Headers,
   Inject,
   OnModuleInit,
   Param,
@@ -30,13 +36,18 @@ export class CompanyController implements OnModuleInit {
   constructor(
     @Inject(COMPANY_PACKAGE_NAME)
     private readonly companyClient: ClientGrpc,
+    @Inject(AUTH_PACKAGE_NAME)
+    private readonly authClient: ClientGrpc,
   ) {}
 
   private companyService!: CompanyServiceClient;
+  private authService!: AuthServiceClient;
 
   onModuleInit() {
     this.companyService =
       this.companyClient.getService<CompanyServiceClient>(COMPANY_SERVICE_NAME);
+    this.authService =
+      this.authClient.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
   }
 
   @Post("create")
@@ -46,8 +57,17 @@ export class CompanyController implements OnModuleInit {
   })
   @ApiOperation({ summary: "Create Company" })
   @ApiOkResponse({ description: "Company Created" })
-  async createCompany(@Body() dto: CreateCompanyDTO) {
-    return firstValueFrom(this.companyService.createCompany(dto));
+  async createCompany(
+    @Body() dto: CreateCompanyDTO,
+    @Headers("Authorization") token: string,
+  ) {
+    return firstValueFrom(
+      this.authService.validateToken({ token: token.split(" ")[1] }),
+    ).then((res) =>
+      firstValueFrom(
+        this.companyService.createCompany({ ...dto, userId: res.uid }),
+      ),
+    );
   }
 
   @Get("")

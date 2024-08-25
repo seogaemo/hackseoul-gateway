@@ -1,5 +1,7 @@
+import { AUTH_PACKAGE_NAME } from "@shared/generated/auth.proto";
 import { COMPANY_PACKAGE_NAME } from "@shared/generated/company.proto";
-import { grpcClientOptions } from "@shared/options/company.option";
+import { grpcClientOptions as authGrpcClientOptions } from "@shared/options/auth.option";
+import { grpcClientOptions as companyGrpcClientOptions } from "@shared/options/company.option";
 
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
@@ -12,7 +14,14 @@ import { CompanyController } from "./company.controller";
       {
         name: COMPANY_PACKAGE_NAME,
         transport: Transport.GRPC,
-        options: grpcClientOptions.options,
+        options: companyGrpcClientOptions.options,
+      },
+    ]),
+    ClientsModule.register([
+      {
+        name: AUTH_PACKAGE_NAME,
+        transport: Transport.GRPC,
+        options: authGrpcClientOptions.options,
       },
     ]),
   ],
