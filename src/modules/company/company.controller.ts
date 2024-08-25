@@ -61,7 +61,7 @@ export class CompanyController implements OnModuleInit {
     @Body() dto: CreateCompanyDTO,
     @Headers("Authorization") token: string,
   ) {
-    return firstValueFrom(
+    return await firstValueFrom(
       this.authService.validateToken({ token: token.split(" ")[1] }),
     ).then((res) =>
       firstValueFrom(
@@ -76,6 +76,6 @@ export class CompanyController implements OnModuleInit {
   @ApiOperation({ summary: "Get Companys" })
   @ApiOkResponse({ description: "Get Companys", type: CompanyResponseDTO })
   async getCompanys(@Param("id") id: string) {
-    return firstValueFrom(this.companyService.getCompany({ uid: id }));
+    return await firstValueFrom(this.companyService.getCompany({ uid: id }));
   }
 }
