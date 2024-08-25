@@ -16,6 +16,7 @@ import {
 } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOkResponse,
   ApiOperation,
@@ -39,6 +40,7 @@ export class ProductController implements OnModuleInit {
   }
 
   @Post("create")
+  @ApiBearerAuth()
   @ApiBody({
     type: CreateProductDTO,
   })
@@ -49,6 +51,7 @@ export class ProductController implements OnModuleInit {
   }
 
   @Get("")
+  @ApiBearerAuth()
   @ApiParam({ name: "id", type: "string" })
   @ApiOperation({ summary: "Get Products" })
   @ApiOkResponse({ description: "Get Products", type: ProductResponseDTO })
